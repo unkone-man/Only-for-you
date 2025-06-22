@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Resham - With Love</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            z-index: 1;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -100;
+            display: none;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+
+        .profile-pic {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #ff6b81;
+            box-shadow: 0 0 30px rgba(255, 107, 129, 0.7);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 3.5rem;
+            margin: 20px 0 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            color: #ff6b81;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            padding: 0 20px;
+        }
+
+        .btns-container {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .msg-btn {
+            padding: 12px 30px;
+            border-radius: 50px;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .yes-btn {
+            background-color: #ff6b81;
+            color: white;
+        }
+
+        .yes-btn:hover {
+            background-color: #ff4757;
+            transform: scale(1.05);
+        }
+
+        .no-btn {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .no-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 107, 129, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(255, 107, 129, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 107, 129, 0);
+            }
+        }
+
+        .love-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .love-message.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .love-message h2 {
+            font-family: 'Pacifico', cursive;
+            color: #ff6b81;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .love-message p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .message-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="playerContainer" class="video-background">
+        </div>
+
+    <section class="hero-section">
+        <div class="overlay"></div>
+
+        <img src="https://i.ibb.co/7xsyxH20/8b4397e3-a0ca-4cfd-a54b-593208fa3a56.png" alt="Resham"
+            class="profile-pic" id="profilePic">
+
+        <h1>For Resham</h1>
+        <p class="subtitle">This special message is just for you. Would you like to see it?</p>
+
+        <div class="btns-container">
+            <button class="msg-btn yes-btn" id="yesBtn">Yes, Show Me ❤️</button>
+            <button class="msg-btn no-btn" id="noBtn">No Thanks</button>
+        </div>
+    </section>
+
+    <div class="love-message" id="loveMessage">
+        <h2>For Someone Special</h2>
+        <p>
+            Every moment with you feels like a beautiful dream. Your smile brightens my darkest days,
+            and your presence fills my heart with joy. I just wanted to remind you how special you are
+            and how much you mean to me. This song is for you because it reminds me of us.
+        </p>
+        <p>
+            You're always in my thoughts, Resham. Always and forever.
+        </p>
+        <div class="message-buttons">
+            <button class="msg-btn yes-btn" id="closeMessage">Close</button>
+        </div>
+    </div>
+
+    <script>
+        let player; // ग्लोबल प्लेयर ऑब्जेक्ट
+        // आपकी YouTube प्लेलिस्ट ID
+        const YOUTUBE_PLAYLIST_ID = 'PLB033A03B0C7356C4'; // **आपकी दी गई प्लेलिस्ट ID**
+
+        // YouTube Iframe API को ग्लोबल रूप से उपलब्ध कराने के लिए फंक्शन
+        function onYouTubeIframeAPIReady() {
+            // जब API तैयार हो जाए, तो कुछ नहीं करना है क्योंकि प्लेयर को 'yesBtn' क्लिक पर इनिशियलाइज़ किया जाएगा
+            console.log('YouTube Iframe API is ready.');
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const yesBtn = document.getElementById('yesBtn');
+            const noBtn = document.getElementById('noBtn');
+            const playerContainer = document.getElementById('playerContainer');
+            const loveMessage = document.getElementById('loveMessage');
+            const closeMessage = document.getElementById('closeMessage');
+
+            // Handle Yes button click
+            yesBtn.addEventListener('click', function () {
+                playerContainer.style.display = 'block';
+                document.querySelector('.overlay').style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+
+                yesBtn.classList.add('hidden');
+                noBtn.classList.add('hidden');
+
+                // YouTube Iframe API को डायनामिक रूप से लोड करें
+                if (!window.YT) {
+                    const tag = document.createElement('script');
+                    tag.src = "https://www.youtube.com/iframe_api"; // सही YouTube Iframe API का सोर्स
+                    const firstScriptTag = document.getElementsByTagName('script')[0];
+                    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+                }
+
+                // प्लेयर को इनिशियलाइज़ करें या प्लेलिस्ट लोड करें
+                if (!player) {
+                    const checkYT = setInterval(() => {
+                        if (window.YT && window.YT.Player) {
+                            clearInterval(checkYT);
+                            player = new YT.Player('playerContainer', {
+                                height: '100%',
+                                width: '100%',
+                                videoId: '', // शुरू में खाली रखें, प्लेलिस्ट से बजेगा
+                                playerVars: {
+                                    'autoplay': 1,
+                                    'controls': 0, // कंट्रोल्स छिपाएँ
+                                    'rel': 0,
+                                    'showinfo': 0,
+                                    'loop': 1, // प्लेलिस्ट को लूप करने के लिए
+                                    'playlist': YOUTUBE_PLAYLIST_ID, // आपकी प्लेलिस्ट ID
+                                    'mute': 1 // Autoplay के लिए mute करना अक्सर जरूरी होता है
+                                },
+                                events: {
+                                    'onReady': (event) => {
+                                        event.target.playVideo();
+                                    },
+                                    'onStateChange': (event) => {
+                                        // आप यहां अतिरिक्त लॉजिक जोड़ सकते हैं
+                                    }
+                                }
+                            });
+                        }
+                    }, 100);
+                } else {
+                    player.loadPlaylist({
+                        list: YOUTUBE_PLAYLIST_ID,
+                        listType: 'playlist',
+                        index: 0,
+                        startSeconds: 0
+                    });
+                    player.playVideo();
+                }
+
+                setTimeout(() => {
+                    loveMessage.classList.add('show');
+                }, 1000);
+            });
+
+            // Handle No button click
+            noBtn.addEventListener('click', function () {
+                document.querySelector('.subtitle').textContent = "Thank you for visiting. You're always in my heart.";
+
+                yesBtn.classList.add('hidden');
+                noBtn.classList.add('hidden');
+            });
+
+            // Close message button
+            closeMessage.addEventListener('click', function () {
+                loveMessage.classList.remove('show');
+                if (player && typeof player.pauseVideo === 'function') {
+                    player.pauseVideo(); // वीडियो को पॉज़ करें जब मैसेज बंद हो
+                }
+            });
+
+            // Mobile-friendly video handling
+            function adjustVideoSize() {
+                const width = window.innerWidth;
+                const height = window.innerHeight;
+
+                if (width / height > 16 / 9) {
+                    playerContainer.style.width = '100%';
+                    playerContainer.style.height = 'auto';
+                } else {
+                    playerContainer.style.width = 'auto';
+                    playerContainer.style.height = '100%';
+                }
+            }
+
+            // Initial adjustment and on resize
+            adjustVideoSize();
+            window.addEventListener('resize', adjustVideoSize);
+        });
+    </script>
+</body>
+</html>
