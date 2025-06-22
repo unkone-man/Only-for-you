@@ -13,7 +13,8 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            overflow: hidden;
+            overflow: hidden; /* Prevent scrolling to keep the full-screen effect */
+            background-color: #fce4ec; /* Fallback background color */
         }
 
         .hero-section {
@@ -25,11 +26,14 @@
             align-items: center;
             text-align: center;
             color: white;
-            z-index: 1;
+            z-index: 1; /* Ensures content is above the overlay */
+            padding: 20px; /* Add some padding for smaller screens */
+            box-sizing: border-box; /* Include padding in element's total width and height */
         }
 
+        /* Video Background styles */
         .video-background {
-            position: fixed;
+            position: fixed; /* Keep video fixed in viewport */
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -37,8 +41,16 @@
             min-height: 100%;
             width: auto;
             height: auto;
-            z-index: -100;
-            display: none;
+            z-index: -100; /* Send to back */
+            display: none; /* Hidden by default, shown on button click */
+            overflow: hidden; /* Ensures the iframe fills its container without scrollbars */
+            background-color: black; /* Fallback for slow video load */
+        }
+
+        .video-background iframe {
+            width: 100%;
+            height: 100%;
+            display: block; /* Remove extra space below iframe */
         }
 
         .overlay {
@@ -47,8 +59,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            z-index: -1;
+            background-color: rgba(0, 0, 0, 0.6); /* Initial darker overlay */
+            z-index: 0; /* Above video, below content */
+            transition: background-color 0.5s ease; /* Smooth transition for overlay */
         }
 
         .profile-pic {
@@ -60,6 +73,7 @@
             box-shadow: 0 0 30px rgba(255, 107, 129, 0.7);
             transition: all 0.3s ease;
             animation: pulse 2s infinite;
+            z-index: 1; /* Ensure it's above overlay */
         }
 
         h1 {
@@ -68,6 +82,18 @@
             margin: 20px 0 10px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             color: #ff6b81;
+            z-index: 1;
+            line-height: 1.2; /* Better line spacing for large text */
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.5rem; /* Adjust font size for smaller screens */
+            }
+            .profile-pic {
+                width: 150px;
+                height: 150px;
+            }
         }
 
         .subtitle {
@@ -75,12 +101,21 @@
             margin-bottom: 30px;
             max-width: 600px;
             padding: 0 20px;
+            z-index: 1;
+        }
+        @media (max-width: 600px) {
+            .subtitle {
+                font-size: 1rem;
+            }
         }
 
         .btns-container {
             margin-top: 20px;
             display: flex;
             gap: 20px;
+            z-index: 1;
+            flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+            justify-content: center; /* Center buttons when wrapped */
         }
 
         .msg-btn {
@@ -91,26 +126,32 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 600;
+            white-space: nowrap; /* Prevent button text from breaking */
         }
 
         .yes-btn {
             background-color: #ff6b81;
             color: white;
+            box-shadow: 0 5px 15px rgba(255, 107, 129, 0.4);
         }
 
         .yes-btn:hover {
             background-color: #ff4757;
             transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 107, 129, 0.6);
         }
 
         .no-btn {
             background-color: transparent;
             color: white;
             border: 2px solid white;
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
         }
 
         .no-btn:hover {
             background-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
         }
 
         .hidden {
@@ -122,11 +163,9 @@
             0% {
                 box-shadow: 0 0 0 0 rgba(255, 107, 129, 0.7);
             }
-
             70% {
                 box-shadow: 0 0 0 15px rgba(255, 107, 129, 0);
             }
-
             100% {
                 box-shadow: 0 0 0 0 rgba(255, 107, 129, 0);
             }
@@ -138,37 +177,50 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: rgba(0, 0, 0, 0.95); /* Slightly darker overlay for message */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 10;
+            z-index: 10; /* Bring to front when shown */
             color: white;
             padding: 20px;
             text-align: center;
             opacity: 0;
-            pointer-events: none;
+            pointer-events: none; /* Don't block interactions when hidden */
             transition: opacity 0.5s ease;
+            box-sizing: border-box;
         }
 
         .love-message.show {
             opacity: 1;
-            pointer-events: auto;
+            pointer-events: auto; /* Allow interactions when shown */
         }
 
         .love-message h2 {
             font-family: 'Pacifico', cursive;
             color: #ff6b81;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+            font-size: 2.8rem; /* Slightly larger heading for message */
+            margin-bottom: 25px;
+            text-shadow: 1px 1px 3px rgba(255, 107, 129, 0.8);
+        }
+        @media (max-width: 600px) {
+            .love-message h2 {
+                font-size: 2rem;
+            }
         }
 
         .love-message p {
-            font-size: 1.2rem;
-            max-width: 600px;
-            line-height: 1.6;
+            font-size: 1.25rem; /* Slightly larger text */
+            max-width: 650px; /* Wider text block */
+            line-height: 1.8; /* More comfortable line height */
             margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        @media (max-width: 600px) {
+            .love-message p {
+                font-size: 1rem;
+            }
         }
 
         .message-buttons {
@@ -214,14 +266,20 @@
     </div>
 
     <script>
-        let player; // ग्लोबल प्लेयर ऑब्जेक्ट
-        // आपकी YouTube प्लेलिस्ट ID
-        const YOUTUBE_PLAYLIST_ID = 'PLB033A03B0C7356C4'; // **आपकी दी गई प्लेलिस्ट ID**
+        let player; // Global player object for YouTube API
+        // This is your YouTube Playlist ID. Ensure it's correct.
+        const YOUTUBE_PLAYLIST_ID = 'PLB033A03B0C7356C4';
 
-        // YouTube Iframe API को ग्लोबल रूप से उपलब्ध कराने के लिए फंक्शन
+        // This function is automatically called by the YouTube Iframe API when it's ready.
+        // It must be in the global scope (not inside DOMContentLoaded).
         function onYouTubeIframeAPIReady() {
-            // जब API तैयार हो जाए, तो कुछ नहीं करना है क्योंकि प्लेयर को 'yesBtn' क्लिक पर इनिशियलाइज़ किया जाएगा
-            console.log('YouTube Iframe API is ready.');
+            console.log('YouTube Iframe API is ready. Player can now be initialized.');
+            // If the 'Yes' button was clicked before the API was ready,
+            // we'll now initialize the player.
+            if (window.pendingPlayerInit) {
+                window.pendingPlayerInit();
+                window.pendingPlayerInit = null; // Clear the flag
+            }
         }
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -230,53 +288,22 @@
             const playerContainer = document.getElementById('playerContainer');
             const loveMessage = document.getElementById('loveMessage');
             const closeMessage = document.getElementById('closeMessage');
+            const overlay = document.querySelector('.overlay');
 
-            // Handle Yes button click
-            yesBtn.addEventListener('click', function () {
-                playerContainer.style.display = 'block';
-                document.querySelector('.overlay').style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-
-                yesBtn.classList.add('hidden');
-                noBtn.classList.add('hidden');
-
-                // YouTube Iframe API को डायनामिक रूप से लोड करें
-                if (!window.YT) {
+            // Function to load the YouTube Iframe API script
+            const loadYouTubeAPI = () => {
+                if (typeof YT === 'undefined' || typeof YT.Player === 'undefined') {
                     const tag = document.createElement('script');
-                    tag.src = "https://www.youtube.com/iframe_api"; // सही YouTube Iframe API का सोर्स
+                    tag.src = "https://www.youtube.com/iframe_api"; // Correct YouTube Iframe API source
                     const firstScriptTag = document.getElementsByTagName('script')[0];
                     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
                 }
+            };
 
-                // प्लेयर को इनिशियलाइज़ करें या प्लेलिस्ट लोड करें
-                if (!player) {
-                    const checkYT = setInterval(() => {
-                        if (window.YT && window.YT.Player) {
-                            clearInterval(checkYT);
-                            player = new YT.Player('playerContainer', {
-                                height: '100%',
-                                width: '100%',
-                                videoId: '', // शुरू में खाली रखें, प्लेलिस्ट से बजेगा
-                                playerVars: {
-                                    'autoplay': 1,
-                                    'controls': 0, // कंट्रोल्स छिपाएँ
-                                    'rel': 0,
-                                    'showinfo': 0,
-                                    'loop': 1, // प्लेलिस्ट को लूप करने के लिए
-                                    'playlist': YOUTUBE_PLAYLIST_ID, // आपकी प्लेलिस्ट ID
-                                    'mute': 1 // Autoplay के लिए mute करना अक्सर जरूरी होता है
-                                },
-                                events: {
-                                    'onReady': (event) => {
-                                        event.target.playVideo();
-                                    },
-                                    'onStateChange': (event) => {
-                                        // आप यहां अतिरिक्त लॉजिक जोड़ सकते हैं
-                                    }
-                                }
-                            });
-                        }
-                    }, 100);
-                } else {
+            // Function to initialize or load the YouTube player
+            const initPlayer = () => {
+                if (player) {
+                    // If player already exists, just load the playlist and play
                     player.loadPlaylist({
                         list: YOUTUBE_PLAYLIST_ID,
                         listType: 'playlist',
@@ -284,44 +311,93 @@
                         startSeconds: 0
                     });
                     player.playVideo();
+                } else {
+                    // Create a new player
+                    player = new YT.Player('playerContainer', {
+                        height: '100%',
+                        width: '100%',
+                        videoId: '', // Initially empty, as it will play from the playlist
+                        playerVars: {
+                            'autoplay': 1,     // Autoplay the video (will work if muted)
+                            'controls': 0,     // Hide player controls
+                            'rel': 0,          // Do not show related videos
+                            'showinfo': 0,     // Do not show video info
+                            'loop': 1,         // Loop the playlist
+                            'playlist': YOUTUBE_PLAYLIST_ID, // Your playlist ID
+                            'mute': 1,         // Mute the video for autoplay to work reliably
+                            'enablejsapi': 1   // Enable JavaScript API interactions
+                        },
+                        events: {
+                            'onReady': (event) => {
+                                event.target.playVideo(); // Play video when ready
+                                console.log('YouTube Player initialized and playing.');
+                            },
+                            'onStateChange': (event) => {
+                                // Optional: Add logic here based on player state (e.g., video ended)
+                            }
+                        }
+                    });
+                }
+            };
+
+            // Handle 'Yes' button click
+            yesBtn.addEventListener('click', function () {
+                playerContainer.style.display = 'block'; // Show the video container
+                overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.3)'; // Lighten the overlay
+
+                yesBtn.classList.add('hidden');
+                noBtn.classList.add('hidden');
+
+                loadYouTubeAPI(); // Load YouTube API script
+
+                // Check if YouTube API is already loaded and ready
+                if (window.YT && window.YT.Player) {
+                    initPlayer(); // If ready, initialize player immediately
+                } else {
+                    // If API is not yet ready, set a flag to initialize player once it is
+                    window.pendingPlayerInit = initPlayer;
                 }
 
+                // Show the love message after a short delay
                 setTimeout(() => {
                     loveMessage.classList.add('show');
                 }, 1000);
             });
 
-            // Handle No button click
+            // Handle 'No' button click
             noBtn.addEventListener('click', function () {
                 document.querySelector('.subtitle').textContent = "Thank you for visiting. You're always in my heart.";
-
                 yesBtn.classList.add('hidden');
                 noBtn.classList.add('hidden');
             });
 
-            // Close message button
+            // Handle 'Close Message' button
             closeMessage.addEventListener('click', function () {
                 loveMessage.classList.remove('show');
                 if (player && typeof player.pauseVideo === 'function') {
-                    player.pauseVideo(); // वीडियो को पॉज़ करें जब मैसेज बंद हो
+                    player.pauseVideo(); // Pause the video when message is closed
                 }
             });
 
-            // Mobile-friendly video handling
+            // This function adjusts the video size to cover the screen
             function adjustVideoSize() {
                 const width = window.innerWidth;
                 const height = window.innerHeight;
+                const playerAspectRatio = 16 / 9; // Standard video aspect ratio (YouTube)
 
-                if (width / height > 16 / 9) {
-                    playerContainer.style.width = '100%';
-                    playerContainer.style.height = 'auto';
+                // Calculate the required width/height to cover the screen while maintaining aspect ratio
+                if (width / height > playerAspectRatio) {
+                    // Window is wider than video aspect ratio, fill width
+                    playerContainer.style.width = '100vw';
+                    playerContainer.style.height = `${(100 / playerAspectRatio)}vw`;
                 } else {
-                    playerContainer.style.width = 'auto';
-                    playerContainer.style.height = '100%';
+                    // Window is taller than video aspect ratio, fill height
+                    playerContainer.style.height = '100vh';
+                    playerContainer.style.width = `${(100 * playerAspectRatio)}vh`;
                 }
             }
 
-            // Initial adjustment and on resize
+            // Initial adjustment and on window resize
             adjustVideoSize();
             window.addEventListener('resize', adjustVideoSize);
         });
