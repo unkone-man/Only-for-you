@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+                <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -294,7 +294,8 @@
             const loadYouTubeAPI = () => {
                 if (typeof YT === 'undefined' || typeof YT.Player === 'undefined') {
                     const tag = document.createElement('script');
-                    tag.src = "https://www.youtube.com/iframe_api"; // Correct YouTube Iframe API source
+                    // *** यह YouTube Iframe API का सही और वर्किंग URL है! ***
+                    tag.src = "http://www.youtube.com/iframe_api"; // Correct YouTube Iframe API URL
                     const firstScriptTag = document.getElementsByTagName('script')[0];
                     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
                 }
@@ -311,6 +312,8 @@
                         startSeconds: 0
                     });
                     player.playVideo();
+                    player.unMute(); // Explicitly unmute the video
+                    player.setVolume(75); // Set volume to 75%
                 } else {
                     // Create a new player
                     player = new YT.Player('playerContainer', {
@@ -324,13 +327,15 @@
                             'showinfo': 0,     // Do not show video info
                             'loop': 1,         // Loop the playlist
                             'playlist': YOUTUBE_PLAYLIST_ID, // Your playlist ID
-                            'mute': 1,         // Mute the video for autoplay to work reliably
+                            'mute': 1,         // Start muted for reliable autoplay (browser policy)
                             'enablejsapi': 1   // Enable JavaScript API interactions
                         },
                         events: {
                             'onReady': (event) => {
                                 event.target.playVideo(); // Play video when ready
-                                console.log('YouTube Player initialized and playing.');
+                                event.target.unMute(); // Immediately unmute after playing
+                                event.target.setVolume(75); // Set default volume
+                                console.log('YouTube Player initialized and playing with sound.');
                             },
                             'onStateChange': (event) => {
                                 // Optional: Add logic here based on player state (e.g., video ended)
